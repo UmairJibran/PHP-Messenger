@@ -41,7 +41,7 @@
 <?php
    if(isset($_POST['login'])){
       $usrEmail = $_POST['usrEmail'];
-      $sql = "SELECT `usr_email`,`usr_password` FROM `tbl_users` WHERE `usr_email` = '${usrEmail}';";
+      $sql = "SELECT * FROM `tbl_users` WHERE `usr_email` = '${usrEmail}';";
       $result = $connection->query($sql);
       $row = $result->num_rows;
       if($row == 1){
