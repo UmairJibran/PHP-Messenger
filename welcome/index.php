@@ -1,6 +1,6 @@
 <?php
    session_start();
-   // require_once('../includes/connection.php');
+   require_once('../includes/connection.php');
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +47,7 @@
       if($row == 1){
          $data = $result->fetch_assoc();
          $usrPassword = $_POST['usrPassword'];
-         $hashedPassword = $data['usrPassword'];
+         $hashedPassword = $data['usr_password'];         
          if(password_verify($usrPassword, $hashedPassword)){
             $user = [
                'id' => $data['usr_id'],
