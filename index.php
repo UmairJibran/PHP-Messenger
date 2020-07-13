@@ -1,3 +1,11 @@
+<?php
+   session_start();
+   if(!isset($_SESSION['user'])){
+      header("Location: ./welcome/");
+   }
+   require_once("./includes/connection.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
