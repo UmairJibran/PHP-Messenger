@@ -37,10 +37,10 @@
   color: #fff;
 }
 .message-body {
-  padding: 20px;
+  padding: 10px;
   border-radius: 15px;
   margin-top: 10px;
-  width: 70%;
+  max-width: 70%;
 }
 
 .recepient {
