@@ -17,3 +17,12 @@
   border-radius: 50%;
   height: 100px;
 }
+
+.num-of-messages {
+  height: 20px;
+  width: 20px;
+  font-size: 12px;
+  border-radius: 50%;
+  text-align: center;
+  float: right;
+}
