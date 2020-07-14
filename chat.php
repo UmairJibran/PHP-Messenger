@@ -25,8 +25,8 @@
       <section class="three-quarters">
          <?php
             $sql = "SELECT * FROM `tbl_messages` WHERE
-            `msg_participant1` = '${recepientUserID}' OR `msg_participant2` = '${recepientUserID}'
-            OR `msg_participant1` = '${userID}' OR `msg_participant2` = '${userID}'";
+            (`msg_participant1` = '${recepientUserID}' OR `msg_participant2` = '${recepientUserID}')
+            AND (`msg_participant1` = '${userID}' OR `msg_participant2` = '${userID}')";
             $result = $connection->query($sql);
             $row = $result->num_rows;
             if($row > 0){
