@@ -1,5 +1,6 @@
 <?php
    require_once('./includes/auth.php');
+   $userID = $_SESSION['id'];
    $recepientUserID = $_GET['oid'];
    $sql = "SELECT *  FROM `tbl_users` WHERE `usr_id` = '$recepientUserID'";
    $result = $connection->query($sql);
@@ -22,13 +23,34 @@
       <a href="./" class="float-left btn btn-outline-success">Home</a>
       <a href="logout.php" class="float-right btn btn-outline-danger">Log Out</a>
       <section class="three-quarters">
-      <div class="message-body recepient">
-            lol
-         </div>
-         <div class="message-body sender">
-            lol
-         </div>         
+         <?php
+            $sql = "SELECT * FROM `tbl_messages` WHERE
+            `msg_participant1` = '${recepientUserID}' OR `msg_participant2` = '${recepientUserID}'
+            OR `msg_participant1` = '${userID}' OR `msg_participant2` = '${userID}'";
+            $result = $connection->query($sql);
+            $row = $result->num_rows;
+            if($row > 0){
+               while($data = $result->fetch_assoc()){
+                  $message = $data['msg_body'];
+                  if($data['msg_sender'] == $userID){
+                     echo "<div class='message-body sender float-right'>$message</div>";
+                  }else{
+                     echo "<div class='message-body recepient'>$message</div>";
+                  }
+               }
+            }else{
+               echo "<div class='center'>There were no messages, why don't you write one</div>";
+            }
+         ?>
       </section>
+      <form method="post" class="row g-3">
+         <div class="col-xl-10">
+            <input type="text" class="form-control" name="message" placeholder="Type your Message" required>
+         </div>
+         <div class="col-xl-2">
+            <input type="submit" value="Send" class="btn btn-outline-dark pt-2 pb-2 pr-5 pl-5">
+         </div>
+      </form>
    </div>
 </body>
 </html>
