@@ -36,3 +36,19 @@
   background-color: #000;
   color: #fff;
 }
+.message-body {
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 10px;
+  width: 70%;
+}
+
+.recepient {
+  float: left;
+  background-color: powderblue;
+}
+
+.sender {
+  float: right;
+  background-color: rgb(176, 230, 207);
+}

@@ -1,6 +1,6 @@
 <?php
    require_once('./includes/auth.php');
-   $userID = $_SESSION['id'];
+   $userID = $_SESSION['user']['id'];
    $recepientUserID = $_GET['oid'];
    $sql = "SELECT *  FROM `tbl_users` WHERE `usr_id` = '$recepientUserID'";
    $result = $connection->query($sql);
@@ -33,7 +33,7 @@
                while($data = $result->fetch_assoc()){
                   $message = $data['msg_body'];
                   if($data['msg_sender'] == $userID){
-                     echo "<div class='message-body sender float-right'>$message</div>";
+                     echo "<div class='message-body sender'>$message</div>";
                   }else{
                      echo "<div class='message-body recepient'>$message</div>";
                   }
