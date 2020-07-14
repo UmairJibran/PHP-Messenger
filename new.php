@@ -19,7 +19,7 @@
       <a href="logout.php" class="btn btn-outline-danger float-right">Log Out</a>
       <br><br>
       <form method="post" class="row">
-         <select name="user" required class="form-control mt-4">
+         <select name="recepient" required class="form-control mt-4">
             <option selected disabled>Select your buddy</option>
             <?php
                $sql = "SELECT * FROM `tbl_users`";
@@ -50,3 +50,20 @@
    </div>
 </body>
 </html>
+
+<?php
+   if (isset($_POST['send'])){
+      $recepientUserID = $_POST['recepient'];
+      $messageBody = mysqli_real_escape_string($connection,$_POST['message']);
+      $preview = substr($messageBody, 0, 50);
+      $sql = "INSERT INTO `tbl_messages` (`msg_id`, `msg_participant1`, `msg_participant2`, `msg_sender`, `msg_body`)
+         VALUES (NULL, '$userID', '$recepientUserID', '$userID', '$messageBody');";
+      $sql2 = "INSERT INTO `tbl_convo` (`convo_id`, `msg_participant1`, `msg_participant2`, `total_messages`, `last_message`) 
+         VALUES (NULL, '${userID}', '${recepientUserID}', 1, '${preview}') ";
+      if($connection->query($sql) === true AND $connection->query($sql2) === true){
+         header("Location: ./chat.php?oid=$recepientUserID");
+      }else{
+         echo "<div class='alert alert-danger'>$connection->error</div>";
+      }
+   }
+?>
