@@ -30,7 +30,6 @@
          if($row > 0){
             while($data = $result->fetch_assoc()){
                $snippet = $data['last_message'];
-               $numberOfMessages = $data['total_messages'];
                $otherUserID;
                if($data['msg_participant1'] != $userID){
                   $otherUserID = $data['msg_participant1'];
@@ -43,12 +42,12 @@
                $otherUserFirstName = $otherUserData['usr_first_name'];
                $otherUserLastName = $otherUserData['usr_last_name'];
                echo "
-                  <aside class='user-photo col-1 center'>
+                  <aside class='user-photo col-1'>
                      <h2 class='display-init'> ". $otherUserFirstName[0] . " " . $otherUserLastName[0] ." </h2>
                   </aside>
                   <aside class='message-preview col-3'>
                      <section class='message-sender center'>
-                        <h3>$otherUserFirstName $otherUserLastName <span class='badge bg-dark num-of-messages'>$numberOfMessages</span></h3>
+                        <h3>$otherUserFirstName $otherUserLastName</h3>
                         <small>$snippet</small>
                      </section>
                   </aside>

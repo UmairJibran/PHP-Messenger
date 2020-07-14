@@ -13,10 +13,6 @@
   padding: 20px 0;
   margin-bottom: 20px;
 }
-.user-photo img {
-  border-radius: 50%;
-  height: 100px;
-}
 
 .num-of-messages {
   height: 20px;
@@ -51,4 +47,21 @@
 .sender {
   float: right;
   background-color: rgb(176, 230, 207);
+}
+
+.display-init {
+  background-color: #818181;
+  color: white;
+  padding: 30px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  text-align: center;
+  margin: auto;
+  vertical-align: center;
+  padding-top: 40px;
+}
+
+h2.display-init {
+  font-size: 50px;
 }
