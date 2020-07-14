@@ -22,25 +22,48 @@
       <br>
       <p class="center">
          <small class="float-left">Welcome, <?php echo $user['firstName']. " " . $user['lastName'];?>!</small>
-         Select a Conversation to continue or <a href="new.php" class="">Start a Conversation</a>
+         Select a Conversation to continue or <a href="#new.php" class="">Start a Conversation</a>
          <a class="float-right btn btn-outline-danger" href="logout.php">Log Out</a>
       </p>
       <br>
-      <div class="message-body-preview row">
-         <aside class="user-photo col col-1 center">
-            <img src="https://via.placeholder.com/150" alt="">
-         </aside>
-         <aside class="message-preview col col-9">
-            <section class="message-sender center">
-               <h3>John Doe</h3>
-            </section>
-            <section class="message left">
-               <p>lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet </p>
-            </section>
-         </aside>
-         <aside class="col col-2">
-            <a href="#" class="btn btn-outline-primary center">Chat with John</a>
-         </aside>
+      <div class='message-body-preview row'>
+      <?php
+         $userID = $user['id'];
+         $sql = "SELECT *  FROM `tbl_convo` WHERE `msg_participant1` = '{$userID}' OR `msg_participant2` = '${userID}'";
+         $result = $connection->query($sql);
+         $row = $result->num_rows;
+         if($row > 0){
+            while($data = $result->fetch_assoc()){
+               $snippet = $data['last_message'];
+               $numberOfMessages = $data['total_messages'];
+               $otherUserID;
+               if($data['msg_participant1'] != $userID){
+                  $otherUserID = $data['msg_participant1'];
+               }else{
+                  $otherUserID = $data['msg_participant2'];
+               }
+               $query = "SELECT *  FROM `tbl_users` WHERE `usr_id` = '{$otherUserID}'";
+               $resultForOtherUser = $connection->query($query);
+               $otherUserData = $resultForOtherUser->fetch_assoc();
+               $otherUserFirstName = $otherUserData['usr_first_name'];
+               $otherUserLastName = $otherUserData['usr_last_name'];
+               echo "
+                  <aside class='user-photo col-1 center'>
+                     <h2 class='display-init'> ". $otherUserFirstName[0] . " " . $otherUserLastName[0] ." </h2>
+                  </aside>
+                  <aside class='message-preview col-3'>
+                     <section class='message-sender center'>
+                        <h3>$otherUserFirstName $otherUserLastName <span class='badge bg-dark num-of-messages'>$numberOfMessages</span></h3>
+                        <small>$snippet</small>
+                     </section>
+                  </aside>
+                  <aside class='col-2'>
+                     <a href='chat.php?oid=$otherUserID' class='btn btn-outline-primary center'>Chat with ${otherUserFirstName}</a>
+                  </aside>
+               ";
+            }
+         }else echo "<div class='alert alert-warning center'>No Messages found, Start Messaging</div>";
+      ?>         
       </div>
    </div>
 </body>
