@@ -1,6 +1,7 @@
 <?php
    session_start();
    require_once('../includes/connection.php');
+   $error = false;
 ?>
 
 <!DOCTYPE html>
@@ -17,6 +18,27 @@
       <div class="row mt-5">
          <aside class="float-left col col-6">
             <h3 class="center">Sign Up</h3>
+            <form method="post">
+               <div class="row">
+                  <div class="form-group mt-3 col-md-6">
+                     <label for="sfname">First Name</label>
+                     <input type="text" id="sfname" name="usrFirstName" required class="form-control" placeholder="John">
+                  </div>
+                  <div class="form-group mt-3 col-md-6">
+                     <label for="slname">Last Name</label>
+                     <input type="text" id="slname" name="usrLastName" required class="form-control" placeholder="Doe">
+                  </div>
+               </div>
+               <div class="form-group mt-3">
+                  <label for="semail">Email</label>
+                  <input type="email" id="semail" name="usrEmail" required class="form-control" placeholder="you@organization.com">
+               </div>
+               <div class="form-group mt-3">
+                  <label for="spassword">Password</label>
+                  <input type="password" id="spassword" name="usrPassword" required class="form-control" placeholder="•••••••••••••••••">
+               </div>
+               <input type="submit" value="Sign Up" name="signup" class="btn btn-outline-info float-right mt-2">
+            </form>
          </aside>
          <section class="col"></section>
          <aside class="float-right col col-3">
@@ -58,15 +80,30 @@
             $_SESSION['user'] = $user;
             header("Location:../");
          }
-         else{
-            echo "<div class='mt-5 container container-fluid'>
-              <div class='alert alert-danger center'>Login Failed, Double check your Password</div>
-            </div>";
-         }
+         else $error = "Login Failed, Double check your Password";
       }
-      else
-         echo "<div class='mt-5 container container-fluid'>
-            <div class='alert alert-danger center'>User with '${usrEmail}' doesn't Exist</div>
-         </div>";
+      else $error = "User with '${usrEmail}' doesn't Exist";
+   }
+   if(isset($_POST['signup'])){
+      $usrEmail = $_POST['usrEmail'];
+      $firstName = $_POST['usrFirstName'];
+      $lastName = $_POST['usrLastName'];
+      $inputPassword = $_POST['usrPassword'];
+      $hashedPassword = password_hash($inputPassword, PASSWORD_DEFAULT);
+      $sql = "INSERT INTO `tbl_users` (`usr_id`, `usr_first_name`, `usr_last_name`, `usr_email`, `usr_password`) VALUES (NULL, '${firstName}', '${lastName}', '${usrEmail}', '${hashedPassword}')";
+      if($connection->query($sql) === true){
+         $user = [
+            'id' => $connection->insert_id,
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'email' => $usrEmail,
+         ];
+         $_SESSION['user'] = $user;
+      }else $error = $connection->error;
+   }
+   if($error){
+      echo "<div class='mt-5 container container-fluid'>
+         <div class='alert alert-danger center'>$error</div>
+      </div>";
    }
 ?>
