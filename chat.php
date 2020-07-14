@@ -48,9 +48,22 @@
             <input type="text" class="form-control" name="message" placeholder="Type your Message" required>
          </div>
          <div class="col-xl-2">
-            <input type="submit" value="Send" class="btn btn-outline-dark pt-2 pb-2 pr-5 pl-5">
+            <input type="submit" name="send" value="Send" class="btn btn-outline-dark pt-2 pb-2 pr-5 pl-5">
          </div>
       </form>
    </div>
 </body>
 </html>
+
+<?php
+   if(isset($_POST['send'])){
+      $messageBody = mysqli_real_escape_string($connection,$_POST['message']);
+      $sql = "INSERT INTO `tbl_messages` (`msg_id`, `msg_participant1`, `msg_participant2`, `msg_sender`, `msg_body`)
+         VALUES (NULL, '$userID', '$recepientUserID', '$userID', '$messageBody');";
+      if($connection->query($sql) === true){
+         header("Location: ./chat.php?oid=$recepientUserID");
+      }else{
+         echo "<div class='alert alert-danger'>$connection->error</div>";
+      }
+   }
+?>
