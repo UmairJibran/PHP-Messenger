@@ -60,7 +60,12 @@
       $messageBody = mysqli_real_escape_string($connection,$_POST['message']);
       $sql = "INSERT INTO `tbl_messages` (`msg_id`, `msg_participant1`, `msg_participant2`, `msg_sender`, `msg_body`)
          VALUES (NULL, '$userID', '$recepientUserID', '$userID', '$messageBody');";
-      if($connection->query($sql) === true){
+      $sql2 = "SELECT *  FROM `tbl_convo` WHERE (`msg_participant1` = '${recepientUserID}' OR `msg_participant2` = '${recepientUserID}') AND (`msg_participant1` = '${userID}' OR `msg_participant2` = '${userID}')";
+      $result = $connection->query($sql2);
+      $newMessages = $result->fetch_assoc()['total_messages'] + 1;
+      $preview = substr($messageBody, 0, 50);
+      $sql2 = "UPDATE `tbl_convo` SET `last_message` ='$preview', `total_messages` = '$newMessages' WHERE (`msg_participant1` = '${recepientUserID}' OR `msg_participant2` = '${recepientUserID}') AND (`msg_participant1` = '${userID}' OR `msg_participant2` = '${userID}')";
+      if($connection->query($sql) === true AND $connection->query($sql2) === true){
          header("Location: ./chat.php?oid=$recepientUserID");
       }else{
          echo "<div class='alert alert-danger'>$connection->error</div>";
