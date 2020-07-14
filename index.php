@@ -17,7 +17,7 @@
       <br>
       <p class="center">
          <small class="float-left">Welcome, <?php echo $user['firstName']. " " . $user['lastName'];?>!</small>
-         Select a Conversation to continue or <a href="#new.php" class="">Start a Conversation</a>
+         Select a Conversation to continue or <a href="new.php" class="">Start a Conversation</a>
          <a class="float-right btn btn-outline-danger" href="logout.php">Log Out</a>
       </p>
       <br>
