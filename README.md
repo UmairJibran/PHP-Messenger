@@ -1,4 +1,4 @@
-# PHP-Messenger
+# PHP Messenger
 
 You can read about it on Medium as well, here is the [link](https://medium.com/@umairjibran/messenger-in-php-from-scratch-ebb69dced62b) to my Medium Article about it!
 
